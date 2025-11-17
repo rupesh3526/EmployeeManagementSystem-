@@ -1,19 +1,27 @@
-package com.ems.EmployeeManagementSystem;
+package com.ems.EmployeeManagementSystem.Entity;
+
+import java.util.List;
 
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
+
+
+
 public class Employee {
 	@Id
     private Long id;
     private String name;
     private String phone;
-    public Long getId() {
+    private List<Skill> skills;
+    public List<Skill> getSkills() {
+		return skills;
+	}
+	public void setSkills (List<Skill> skills) {
+		this.skills = skills;
+	}
+	
+	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
@@ -38,4 +46,5 @@ public class Employee {
 		this.email = email;
 	}
 	private String email;
+
 }
