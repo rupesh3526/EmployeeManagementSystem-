@@ -84,7 +84,7 @@ A Spring Boot–based backend application to manage employees, skills, and relat
 
 ### 1️⃣ Clone the repo
 ```bash
-git clone https://github.com/rupesh3526/EmployeeManagementSystem.git
+git clone https://github.com/rupesh3526/EmployeeManagementSystem-.git
 ```
 
 ### 2️⃣ Configure your DB
