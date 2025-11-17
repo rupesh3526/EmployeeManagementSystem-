@@ -23,8 +23,7 @@ A Spring Boot–based backend application to manage employees, skills, and relat
 |-------|------------|
 | Backend | Spring Boot  |
 | ORM | Hibernate / JPA |
-| Database | MySQL / PostgreSQL (configurable) |
-| Validation | Jakarta Validation / @Valid |
+| Database | MySQL |
 | Build Tool | Maven |
 | Logging | SLF4J + Logback |
 | Java Version | Java 17+ |
@@ -84,7 +83,7 @@ A Spring Boot–based backend application to manage employees, skills, and relat
 
 ### 1️⃣ Clone the repo
 ```bash
-git clone https://github.com/rupesh3526/EmployeeManagementSystem.git
+git clone https://github.com/rupesh3526/EmployeeManagementSystem-.git
 ```
 
 ### 2️⃣ Configure your DB
