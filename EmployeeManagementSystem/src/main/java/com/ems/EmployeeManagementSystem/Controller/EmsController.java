@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
 
 @RestController
+@RequestMapping("/emp")  
 public class EmsController {
 	private Logger logger = LoggerFactory.getLogger( EmsController.class);
 	
@@ -33,14 +35,11 @@ public class EmsController {
  private   EmployeeService employeeService ;
  
 
-    //Dependency Injection
-    // @Autowired
-    // EmployeeService employeeService;
     
-    @GetMapping("/test")
-    public String test() {
+    @GetMapping("Ding")
+    public String ding() {
     	logger.info("This is Working");
-    	return "Working";
+    	return "Dong!";
     }
     
 
@@ -128,9 +127,20 @@ public class EmsController {
     		
     		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();}
     	
-    	
+         
     	
     }
     
+    @GetMapping("employeePages")
+    public ResponseEntity<List<Employee>> getEmployeePages(@RequestParam(required=false,defaultValue="1") int offset,@RequestParam(required=false,defaultValue="10") int limit  ,@RequestParam(required=false,defaultValue="Id") String sortBy   )
+    {
+    	offset-=1;
+    	try {return   ResponseEntity.ok(employeeService.employeePagination(offset,limit,sortBy));
+    	
+    	}catch(Exception e) {
+    		return ResponseEntity.noContent().build();
+    	}
+    	
+    }
     
 }

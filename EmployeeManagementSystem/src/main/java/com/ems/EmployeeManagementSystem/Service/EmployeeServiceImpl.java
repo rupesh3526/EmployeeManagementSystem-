@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -188,6 +191,28 @@ catch(Exception e){
 	
 	
 	return readEmployee();
+}
+@Override
+public List<Employee> employeePagination(int offset, int limit,String sortBy) {
+	Sort sort=	 Sort.by(sortBy).descending();
+	PageRequest page  =PageRequest.of(offset,limit,sort);
+	
+	List<EmployeeEntity> employeesList=employeeRepository.findAll(page).getContent();
+	 List<Employee> employees = new ArrayList<>();
+
+     
+     for (EmployeeEntity employeeEntity : employeesList) {
+         Employee emp = new Employee();
+         emp.setId(employeeEntity.getId());
+         emp.setName(employeeEntity.getName());
+         emp.setEmail(employeeEntity.getEmail());
+         emp.setPhone(employeeEntity.getPhone());
+         emp.setSkills(employeeEntity.getSkills());
+         employees.add(emp);
+         
+     }
+     return employees;
+	 
 }
 
 

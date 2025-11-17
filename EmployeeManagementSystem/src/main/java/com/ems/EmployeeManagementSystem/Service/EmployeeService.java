@@ -2,6 +2,7 @@ package com.ems.EmployeeManagementSystem.Service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.ems.EmployeeManagementSystem.Entity.Employee;
@@ -21,4 +22,5 @@ public interface EmployeeService {
     //Employee createEmployeeWithSkills(Employee e);
     String deleteByNameOrEmailOrPhone(String name , String email, String phone);
     List<Employee> saveMultipleEmployees(List<Employee> employees);
+    List<Employee> employeePagination(int limit,int offset,String sortBy);
 }
