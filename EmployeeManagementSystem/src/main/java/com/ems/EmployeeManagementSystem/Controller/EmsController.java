@@ -1,17 +1,21 @@
 package com.ems.EmployeeManagementSystem.Controller;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.ems.EmployeeManagementSystem.Entity.Employee;
 import com.ems.EmployeeManagementSystem.Entity.Skill;
+import com.ems.EmployeeManagementSystem.ExceptionHandle.WrongInputException;
 import com.ems.EmployeeManagementSystem.Service.EmployeeService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +50,9 @@ public class EmsController {
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
     List<Employee> list =	employeeService.readEmployee();
-    
+    if (list ==null) {
+    	throw new NoSuchElementException();
+    }
         return list;
     }
 
@@ -57,6 +63,13 @@ public class EmsController {
 
     @PostMapping("/employees")
     public String createEmployee(@RequestBody Employee employee) {
+    	
+    	if( employee.getName()== null || employee.getName().isEmpty() || employee.getName().isBlank() ) {
+    		throw new WrongInputException("Name should not be empty");
+    	}
+    	else if(employee.getEmail() == null || employee.getEmail().isBlank() || employee.getEmail().isEmpty() ) {
+    		throw new WrongInputException("Email should not be empty");
+    	}
     	
         logger.info("employee: {}" , employee);
         return employeeService.createEmployee(employee);
@@ -92,15 +105,14 @@ public class EmsController {
     
 
     @GetMapping("employeess/{email}")
-    public ResponseEntity<Employee> getEmployeeByEmail(@PathVariable String email) {
+    public Employee getEmployeeByEmail(@PathVariable String email) {
     	
         Employee employee = employeeService.readEmployeeByEmail(email);
+       
         if (employee == null) {
-        	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
+            throw new NoSuchElementException("Employee with email " + email + " not found");
         }
-        
-        	return ResponseEntity.ok(employee);
+        	return employee;
         
     }
     
