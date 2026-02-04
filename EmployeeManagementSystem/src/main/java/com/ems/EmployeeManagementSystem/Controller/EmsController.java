@@ -1,6 +1,8 @@
 package com.ems.EmployeeManagementSystem.Controller;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.ems.EmployeeManagementSystem.Entity.Employee;
@@ -10,6 +12,7 @@ import com.ems.EmployeeManagementSystem.Service.EmployeeService;
 
 import jakarta.validation.Valid;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -41,6 +44,22 @@ public class EmsController {
  @Autowired
  private   EmployeeService employeeService ;
  
+ 
+ @GetMapping("/me")
+ public Map<String, Object> whoAmI() {
+
+     Authentication auth =
+         SecurityContextHolder.getContext().getAuthentication();
+
+     Map<String, Object> info = new HashMap<>();
+     info.put("username", auth.getName());
+     info.put("roles", auth.getAuthorities());
+     info.put("authenticated", auth.isAuthenticated());
+
+     return info;
+ }
+
+ 
 
     
     @GetMapping("Ding")
@@ -58,12 +77,12 @@ public class EmsController {
     }
         return list;
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("employees/{id}")
     public Employee getEmployeeById(@PathVariable Long id) {
         return employeeService.readEmployees(id);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/employees")
     public String createEmployee(@RequestBody Employee employee) {
     	

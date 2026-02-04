@@ -17,13 +17,17 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 	
-	@Bean
-	UserDetailsService userDetailsService() {
-		UserDetails user = User.withUsername("rupesh").password("{noop}12345").roles("ADMIN").build();
-		UserDetails user2 = User.withUsername("deepak").password("{noop}12345").build();
-
-		return new InMemoryUserDetailsManager(user,user2);
-	}
+	/*
+	 * @Bean UserDetailsService userDetailsService() { UserDetails user =
+	 * User.withUsername("rupesh").password("{noop}12345").roles("ADMIN").build();
+	 * UserDetails user2 =
+	 * User.withUsername("deepak").password("{noop}12345").roles("USER").build();
+	 * UserDetails user3 =
+	 * User.withUsername("ram").password("{noop}12345").roles("AGENT").build();
+	 * 
+	 * 
+	 * return new InMemoryUserDetailsManager(user,user2); }
+	 */
 	
 	
 	 
@@ -32,7 +36,7 @@ public class SecurityConfig {
 	 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 	    http
 	 	   .csrf(csrf -> csrf.disable())
-	 	        .authorizeHttpRequests(auth -> auth.requestMatchers("/emp/**").permitAll()
+	 	        .authorizeHttpRequests(auth -> auth
 	 	            .anyRequest().authenticated()
 	 	        )
 	 	        .httpBasic();

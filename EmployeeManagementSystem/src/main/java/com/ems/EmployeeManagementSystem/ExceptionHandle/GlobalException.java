@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -52,19 +54,30 @@ public class GlobalException {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex,HttpServletRequest request) {
+		 Map<String, String> errors = new HashMap<>();
 
-	    Map<String, String> errors = new HashMap<>();
-
-	    ex.getBindingResult().getFieldErrors().forEach(error ->
-	        errors.put(error.getField(), error.getDefaultMessage())
-	    );
-	    
-	    
+		    ex.getBindingResult().getFieldErrors().forEach(error ->
+		        errors.put(error.getField(), error.getDefaultMessage())
+		    );
 	    
 
 	    return ResponseEntity.badRequest().body(errors);
 	}
+	
+	@ExceptionHandler(EmployeeNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleEmployeeNotFoundException(EmployeeNotFoundException ex,HttpServletRequest request) {
 
-		
+		ErrorResponse error = new ErrorResponse(
+	            HttpStatus.NOT_FOUND.value(),
+	            "NOT_FOUND",
+	            ex.getMessage(),
+	            request.getRequestURI()
+	            );
+	    
+	    
+
+	    return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+
 	
 }
