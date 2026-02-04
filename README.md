@@ -1,27 +1,46 @@
-# 🚀 Employee Management System  
-A Spring Boot–based backend application to manage employees, skills, and related operations with Hibernate ORM, REST APIs, and MySQL integration.
+# 🚀 Employee Management System
+
+A Spring Boot backend REST application for managing employees and their skills,
+built using Hibernate/JPA, MySQL, and Spring Security with role-based authorization.
+
+This project focuses on clean CRUD design, layered architecture, and secure update
+operations (self or admin access).
 
 ---
 
-## 📌 Features
-- Create, update, delete employees  
-- Fetch all employees or get employee by ID  
-- Read employee using email  
-- Assign and manage skills for employees  
-- Bulk employee insertion  
-- Proper HTTP status codes for all operations  
-- Validation-ready structure with DTOs/entities  
-- Hibernate + JPA for database operations  
-- Centralized service layer logic  
-- Clean REST API architecture
+## 📌 Key Features
+
+- Employee CRUD operations
+- Fetch employee by ID or email
+- Assign and manage skills for employees
+- Bulk employee insertion
+- Role-based authorization (USER / ADMIN)
+- Secure update logic (self or admin only)
+- Proper HTTP status codes and exception handling
+- DTO-driven request/response handling
+- Hibernate + JPA for ORM
+- Clean service-layer business logic
+- RESTful API architecture
+
+---
+
+## 🔐 Security Overview
+
+- Basic Authentication using Spring Security
+- Email is used as the username
+- Authorization rules:
+  - A user can update **only their own profile**
+  - An admin can update **any employee and roles**
+- Authorization enforced using `SecurityContextHolder`
 
 ---
 
 ## 🏗️ Tech Stack
 
 | Layer | Technology |
-|-------|------------|
-| Backend | Spring Boot  |
+|------|------------|
+| Backend | Spring Boot |
+| Security | Spring Security (Basic Auth) |
 | ORM | Hibernate / JPA |
 | Database | MySQL |
 | Build Tool | Maven |
@@ -30,76 +49,70 @@ A Spring Boot–based backend application to manage employees, skills, and relat
 
 ---
 
-## 🔧 Project Structure
-
----
-
 ## 📡 REST API Endpoints
 
-### ▶️ **Employee Operations**
+### ▶️ Employee Operations
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|------|---------|-------------|
 | GET | `/employees` | Fetch all employees |
 | GET | `/employees/{id}` | Get employee by ID |
-| GET | `/employeess/{email}` | Get employee by email |
+| GET | `/employees/email/{email}` | Get employee by email |
 | POST | `/employees` | Create a new employee |
 | PUT | `/employees/{id}` | Update employee |
 | DELETE | `/employees/{id}` | Delete employee |
-| GET | `/count` | Count total employees |
+| GET | `/employees/count` | Count total employees |
 | POST | `/allEmployees` | Bulk insert employees |
 
 ---
 
-### ▶️ **Skill Operations**
+### ▶️ Skill Operations
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/skills/{id}` | Get skills of employee by ID |
+|------|---------|-------------|
+| GET | `/skills/{employeeId}` | Get skills of an employee |
 
 ---
 
-## 🗃️ Database Schema (Example)
+## 🗃️ Database Schema (Simplified)
 
-### `Employee`
+### Employee
+
 | Field | Type |
-|-------|------|
+|------|------|
 | id | BIGINT (PK) |
 | name | VARCHAR |
 | email | VARCHAR (unique) |
 | phone | VARCHAR |
-| … |
+| role | VARCHAR |
 
-### `Skill`
+### Skill
+
 | Field | Type |
-|-------|------|
+|------|------|
 | id | BIGINT (PK) |
-| skillName | VARCHAR |
-| employee_id | FK to Employee |
+| skill_name | VARCHAR |
+| employee_id | FK → Employee |
 
 ---
 
 ## ⚙️ How to Run the Project
 
-### 1️⃣ Clone the repo
+### 1️⃣ Clone the repository
+
 ```bash
 git clone https://github.com/rupesh3526/EmployeeManagementSystem-.git
 ```
+2️⃣ Configure Database
 
-### 2️⃣ Configure your DB
-
-In application.properties:
-
+Update application.properties:
 ```bash
 spring.datasource.url=jdbc:mysql://localhost:3306/ems
 spring.datasource.username=root
 spring.datasource.password=yourpassword
 spring.jpa.hibernate.ddl-auto=update
 ```
-
-3️⃣ Build & run
+3️⃣ Build and Run
 ```bash
 mvn spring-boot:run
 ```
-
-
