@@ -1,4 +1,4 @@
-package com.ems.EmployeeManagementSystem.Entity;
+package com.ems.EmployeeManagementSystem.ExceptionHandle;
 
 import java.time.LocalDateTime;
 

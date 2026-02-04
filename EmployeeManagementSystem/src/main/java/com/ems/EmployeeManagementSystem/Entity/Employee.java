@@ -2,7 +2,11 @@ package com.ems.EmployeeManagementSystem.Entity;
 
 import java.util.List;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 
 
@@ -10,8 +14,11 @@ import jakarta.persistence.Id;
 
 public class Employee {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	@NotEmpty
     private String name;
+	@NotNull
     private String phone;
     private List<Skill> skills;
     public List<Skill> getSkills() {
@@ -46,5 +53,6 @@ public class Employee {
 		this.email = email;
 	}
 	private String email;
+	
 
 }

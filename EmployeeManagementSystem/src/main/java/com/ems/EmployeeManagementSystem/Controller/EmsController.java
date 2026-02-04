@@ -8,6 +8,8 @@ import com.ems.EmployeeManagementSystem.Entity.Skill;
 import com.ems.EmployeeManagementSystem.ExceptionHandle.WrongInputException;
 import com.ems.EmployeeManagementSystem.Service.EmployeeService;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -19,6 +21,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,7 +58,7 @@ public class EmsController {
     }
         return list;
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("employees/{id}")
     public Employee getEmployeeById(@PathVariable Long id) {
         return employeeService.readEmployees(id);
@@ -85,7 +88,7 @@ public class EmsController {
     }}
 
     @PutMapping("employees/{id}")
-    public String putMethodName(@PathVariable Long id, @RequestBody Employee employee) {     
+    public String putMethodName(@PathVariable Long id, @Valid @RequestBody Employee employee) {     
         return employeeService.updateEmployee(id, employee);
     }
     

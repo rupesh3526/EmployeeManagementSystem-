@@ -1,13 +1,14 @@
 package com.ems.EmployeeManagementSystem.ExceptionHandle;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import com.ems.EmployeeManagementSystem.Entity.ErrorResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -47,4 +48,23 @@ public class GlobalException {
 		            .body(error);
 		
 	}
+	
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex,HttpServletRequest request) {
+
+	    Map<String, String> errors = new HashMap<>();
+
+	    ex.getBindingResult().getFieldErrors().forEach(error ->
+	        errors.put(error.getField(), error.getDefaultMessage())
+	    );
+	    
+	    
+	    
+
+	    return ResponseEntity.badRequest().body(errors);
+	}
+
+		
+	
 }
