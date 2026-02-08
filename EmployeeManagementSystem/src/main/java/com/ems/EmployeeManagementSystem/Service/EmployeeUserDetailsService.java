@@ -29,7 +29,7 @@ public class EmployeeUserDetailsService
                 new UsernameNotFoundException("Employee not found"));*/
 
         return User.withUsername(emp.getEmail())
-            .password("{noop}" + emp.getPhone()) // learning shortcut
+            .password(emp.getPassword()) // learning shortcut
             .roles(emp.getRole())
             .build();
     }

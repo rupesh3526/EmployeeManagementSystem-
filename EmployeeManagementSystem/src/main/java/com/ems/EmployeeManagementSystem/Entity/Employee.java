@@ -27,6 +27,7 @@ public class Employee {
     private String phone;
 	@NotEmpty
 	private String role;
+	
     private List<Skill> skills;
     public List<Skill> getSkills() {
 		return skills;

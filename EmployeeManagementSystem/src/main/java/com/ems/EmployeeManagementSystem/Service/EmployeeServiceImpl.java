@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	@Autowired
+	private PasswordEncoder passCoder;
 
 	@Override
 	@Transactional
@@ -41,6 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeEntity.setName(employee.getName());
 		employeeEntity.setPhone(employee.getPhone());
 		employeeEntity.setRole(employee.getRole());
+		employeeEntity.setPassword(passCoder.encode(employee.getPhone()));
 
 		employeeEntity.setSkills(new ArrayList<Skill>());
 
@@ -57,6 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 			}
 		}
+
 
 		employeeRepository.save(employeeEntity);
 

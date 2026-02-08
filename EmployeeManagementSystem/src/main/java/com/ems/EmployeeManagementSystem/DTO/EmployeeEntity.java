@@ -33,6 +33,7 @@ public class EmployeeEntity {
     private Long id;
     private String name;
     private String phone;
+    private String password;
     @Email
     @Column(unique = true)
     private String email;

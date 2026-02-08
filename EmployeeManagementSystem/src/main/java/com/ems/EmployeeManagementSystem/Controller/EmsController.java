@@ -82,7 +82,7 @@ public class EmsController {
     public Employee getEmployeeById(@PathVariable Long id) {
         return employeeService.readEmployees(id);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+  //  @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/employees")
     public String createEmployee(@RequestBody Employee employee) {
     	
